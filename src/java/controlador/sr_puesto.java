@@ -11,14 +11,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import modelo.Marcas;
+import modelo.Puesto;
 
 /**
  *
  * @author josej
  */
-@WebServlet(name = "sr_marca", urlPatterns = {"/sr_marca"})
-public class sr_marca extends HttpServlet {
+@WebServlet(name = "sr_puesto", urlPatterns = {"/sr_puesto"})
+public class sr_puesto extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,7 +29,7 @@ public class sr_marca extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Marcas marca;
+    Puesto puesto;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -38,37 +38,36 @@ public class sr_marca extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet sr_marca</title>");
+            out.println("<title>Servlet sr_puesto</title>");
             out.println("</head>");
             out.println("<body>");
-            
             if ("agregar".equals(request.getParameter("btn_agregar"))){
-                marca = new Marcas (request.getParameter("txt_marca"),Integer.valueOf(request.getParameter("txt_id")));
-                if (marca.agregar() > 0) {
-                    response.sendRedirect("marca.jsp");
+                puesto = new Puesto (Integer.valueOf(request.getParameter("txt_id")),(request.getParameter("txt_puesto")));
+                if (puesto.agregar()> 0) {
+                    response.sendRedirect("puesto.jsp");
                 } else {
                     out.println("<h1>Error al agregar</h1>");
-                    out.println("<a href ='marca.jsp'>Regresar</a>");
+                    out.println("<a href ='puesto.jsp'>Regresar</a>");
                 }
             }
             
             if ("modificar".equals(request.getParameter("btn_modificar"))) {
-                marca = new Marcas(request.getParameter("txt_marca"),Integer.valueOf(request.getParameter("txt_id")));
-                if (marca.modificar() > 0) {
-                    response.sendRedirect("marca.jsp");
+                puesto = new Puesto (Integer.valueOf(request.getParameter("txt_id")),(request.getParameter("txt_puesto")));
+                if (puesto.actualizar()> 0) {
+                    response.sendRedirect("puesto.jsp");
                 } else {
-                    out.println("<h1>Error al modificar</h1>");
-                    out.println("<a href ='marca.jsp'>Regresar</a>");
+                    out.println("<h1>Error al editar</h1>");
+                    out.println("<a href ='puesto.jsp'>Regresar</a>");
                 }
             }
             
             if  ("eliminar".equals(request.getParameter("btn_eliminar"))){
-                marca = new Marcas(request.getParameter("txt_marca"),Integer.valueOf(request.getParameter("txt_id")));
-                if (marca.eliminar() > 0) {
-                    response.sendRedirect("marca.jsp");
-            } else {
+                puesto = new Puesto (Integer.valueOf(request.getParameter("txt_id")),(request.getParameter("txt_puesto")));
+                if (puesto.eliminar()> 0) {
+                    response.sendRedirect("puesto.jsp");
+                } else {
                     out.println("<h1>Error al eliminar</h1>");
-                    out.println("<a href ='marca.jsp'>Regresar</a>");
+                    out.println("<a href ='puesto.jsp'>Regresar</a>");
                 }
             }
             out.println("</body>");

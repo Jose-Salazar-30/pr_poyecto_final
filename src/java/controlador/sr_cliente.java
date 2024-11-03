@@ -11,14 +11,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import modelo.Marcas;
+import modelo.Cliente;
 
 /**
  *
  * @author josej
  */
-@WebServlet(name = "sr_marca", urlPatterns = {"/sr_marca"})
-public class sr_marca extends HttpServlet {
+@WebServlet(name = "sr_cliente", urlPatterns = {"/sr_cliente"})
+public class sr_cliente extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,7 +29,7 @@ public class sr_marca extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Marcas marca;
+    Cliente cliente;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -38,39 +38,39 @@ public class sr_marca extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet sr_marca</title>");
+            out.println("<title>Servlet sr_cliente</title>");
             out.println("</head>");
             out.println("<body>");
-            
             if ("agregar".equals(request.getParameter("btn_agregar"))){
-                marca = new Marcas (request.getParameter("txt_marca"),Integer.valueOf(request.getParameter("txt_id")));
-                if (marca.agregar() > 0) {
-                    response.sendRedirect("marca.jsp");
+                cliente = new Cliente(request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_NIT"),request.getParameter("txt_genero"),request.getParameter("txt_telefono"),request.getParameter("txt_email"),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("txt_id")));
+                if (cliente.agregar() > 0) {
+                    response.sendRedirect("cliente.jsp");
                 } else {
                     out.println("<h1>Error al agregar</h1>");
-                    out.println("<a href ='marca.jsp'>Regresar</a>");
+                    out.println("<a href ='cliente.jsp'>Regresar</a>");
                 }
             }
             
-            if ("modificar".equals(request.getParameter("btn_modificar"))) {
-                marca = new Marcas(request.getParameter("txt_marca"),Integer.valueOf(request.getParameter("txt_id")));
-                if (marca.modificar() > 0) {
-                    response.sendRedirect("marca.jsp");
+            if ("modificar".equals(request.getParameter("btn_modificar"))){
+              cliente = new Cliente(request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_NIT"),request.getParameter("txt_genero"),request.getParameter("txt_telefono"),request.getParameter("txt_email"),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("txt_id")));
+                if (cliente.actualizar()> 0) {
+                    response.sendRedirect("cliente.jsp");
                 } else {
                     out.println("<h1>Error al modificar</h1>");
-                    out.println("<a href ='marca.jsp'>Regresar</a>");
+                    out.println("<a href ='cliente.jsp'>Regresar</a>");
                 }
             }
             
-            if  ("eliminar".equals(request.getParameter("btn_eliminar"))){
-                marca = new Marcas(request.getParameter("txt_marca"),Integer.valueOf(request.getParameter("txt_id")));
-                if (marca.eliminar() > 0) {
-                    response.sendRedirect("marca.jsp");
-            } else {
+            if ("eliminar".equals(request.getParameter("btn_eliminar"))){
+            cliente = new Cliente(request.getParameter("txt_nombres"),request.getParameter("txt_apellidos"),request.getParameter("txt_NIT"),request.getParameter("txt_genero"),request.getParameter("txt_telefono"),request.getParameter("txt_email"),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("txt_id")));
+                if (cliente.eliminar()> 0) {
+                    response.sendRedirect("cliente.jsp");
+                } else {
                     out.println("<h1>Error al eliminar</h1>");
-                    out.println("<a href ='marca.jsp'>Regresar</a>");
+                    out.println("<a href ='cliente.jsp'>Regresar</a>");
                 }
             }
+            
             out.println("</body>");
             out.println("</html>");
         }

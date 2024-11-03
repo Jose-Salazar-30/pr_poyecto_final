@@ -8,23 +8,24 @@ import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 public class Marcas {
-    private int id_marca;
+    private int id;
     private String marca;
     private Conexion cn;
 
     public Marcas() {
     }
 
-    public Marcas(String marca) {
+    public Marcas(String marca, int id) {
         this.marca = marca;
+        this.id = id;
     }
     
-    public int getId_marca() {
-        return id_marca;
+        public int getId() {
+        return id;
     }
 
-    public void setId_marca(int id_marca) {
-        this.id_marca = id_marca;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMarca() {
@@ -62,9 +63,9 @@ public class Marcas {
             int retorno = 0;
             try{
                 cn = new Conexion();
+                cn.abrirConexion();
                 PreparedStatement parametro;
                 String query = query = "INSERT INTO marcas(marca) VALUES(?);";
-                cn.abrirConexion();
                 parametro = (PreparedStatement)cn.conexionBD.prepareStatement(query);
                 parametro.setString(1, getMarca());
                 
@@ -83,12 +84,12 @@ public class Marcas {
             int retorno = 0;
             try {
                 cn = new Conexion();
+                cn.abrirConexion();
                 PreparedStatement parametro;
                 String query = "update marcas set marca=? where id_marca=?;";
-                cn.abrirConexion();
                 parametro = (PreparedStatement)cn.conexionBD.prepareStatement(query);
                 parametro.setString(1, getMarca());
-                parametro.setInt(2, getId_marca());
+                parametro.setInt(2, getId());
                 
                 retorno = parametro.executeUpdate();
                 
@@ -106,8 +107,9 @@ public class Marcas {
                 cn = new Conexion();
                 PreparedStatement parametro;
                 String query = "delete from marcas where id_marca=?";
+                cn.abrirConexion();
                 parametro = (PreparedStatement)cn.conexionBD.prepareStatement(query);
-                parametro.setInt(1, getId_marca());
+                parametro.setInt(1, getId());
                 
                 retorno = parametro.executeUpdate();
                 
@@ -117,6 +119,23 @@ public class Marcas {
             retorno = 0;
         }
             return retorno;
+        }
+
+        public HashMap drop_marca(){
+            HashMap<String,String> drop = new HashMap();
+            try{
+                cn = new Conexion();
+                String query = "SELECT id_marca as id,marca from marcas;";
+                cn.abrirConexion();
+                ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
+                while (consulta.next()) {
+                    drop.put(consulta.getString("id"), consulta.getString("marca"));
+                }
+                cn.cerrarConexion();
+            } catch (SQLException ex){
+                System.out.println(ex.getMessage());
+            }
+            return drop;
         }
         
 }

@@ -1,3 +1,4 @@
+<%@page import="modelo.Puesto"%>
 <%@page import="javax.swing.table.DefaultTableModel"%>
 <%@page import="modelo.Marcas"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,29 +13,28 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Marcas</title>
+        <title>Puesto</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     </head>
     <body>
-        <h1>Formulario Marcas</h1>
+        <h1>Formulario Puestos</h1>
         
         <button type="button" class="btn btn-primary">
-            <a href='producto.jsp' style="color: white;" text-decoration: none;>Productos</a>
+            <a href='empleado.jsp' style="color: black;" text-decoration: none;>Empleado</a>
         </button>
-        
         <br><br>
         
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_empleado" onclick="limpiar()">Nuevo</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_puesto" onclick="limpiar()">Nuevo</button>
         
-        <div class="modal" id="modal_empleado">
+        <div class="modal" id="modal_puesto">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
-                            <form action="sr_marca" method="post" class="form-group">
+                            <form action="sr_puesto" method="post" class="form-group">
                             <label for="lbl_id"><b>ID:</b></label>
                             <input type="text" name="txt_id" id="txt_id" class="form-control" value="0" readonly>
-                            <label for="lbl_codigo"><b>Marca:</b></label>
-                            <input type="text" name="txt_marca" id="txt_marca" class="form-control" placeholder="Ejemplo: Marca1" required>
+                            <label for="lbl_puesto"><b>Puesto</b></label>
+                            <input type="text" name="txt_puesto" id="txt_puesto" class="form-control" placeholder="Ejemplo: Puesto1" required>
                             <br>
                             <button name="btn_agregar" id="btn_agregar" value="agregar" class="btn btn-primary">Agregar</button>
                             <button name="btn_modificar" id="btn_modificar" value="modificar" class="btn btn-success">Modificar</button>
@@ -56,14 +56,14 @@
             <thead>
                 <tr>
                   <th>Codigo</th>
-                  <th>Marca</th>
+                  <th>Puesto</th>
                 </tr>
             </thead>
-            <tbody id="tbl_marcas">
+            <tbody id="tbl_puestos">
                 <%
-                 Marcas marca = new Marcas();
+                 Puesto puesto = new Puesto();
                  DefaultTableModel tabla = new DefaultTableModel();
-                 tabla = marca.leer();
+                 tabla = puesto.leer();
                  for (int t=0;t<tabla.getRowCount();t++){
                  out.println("<tr data-id" + tabla.getValueAt(t, 0) + ">");
                  out.println("<td>"+ tabla.getValueAt(t, 0) + "</td>");
@@ -79,18 +79,18 @@
         <script type="text/javascript">
             function limpiar(){
                 $("#txt_id").val(0);
-                $("#txt_marca").val('');
+                $("#txt_puesto").val('');
             }
             
-            $('#tbl_marcas').on('click','tr td',function(evt){
-               var target,id,marca;
+            $('#tbl_puestos').on('click','tr td',function(evt){
+               var target,id,puesto;
                target = $(event.target);
                id = target.parent().data('id');
                id = target.parent("tr").find("td").eq(0).html();
-               marca = target.parent("tr").find("td").eq(1).html();
+               puesto = target.parent("tr").find("td").eq(1).html();
                $("#txt_id").val(id);
-               $("#txt_marca").val(marca);
-               $("#modal_empleado").modal('show');
+               $("#txt_puesto").val(puesto);
+               $("#modal_puesto").modal('show');
             });
         </script>
     </body>

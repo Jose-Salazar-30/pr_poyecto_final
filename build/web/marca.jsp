@@ -18,6 +18,12 @@
     <body>
         <h1>Formulario Marcas</h1>
         
+        <button type="button" class="btn btn-primary">
+            <a href='producto.jsp' style="color: white;" text-decoration: none;>Productos</a>
+        </button>
+        
+        <br><br>
+        
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_empleado" onclick="limpiar()">Nuevo</button>
         
         <div class="modal" id="modal_empleado">
@@ -59,7 +65,11 @@
                  DefaultTableModel tabla = new DefaultTableModel();
                  tabla = marca.leer();
                  for (int t=0;t<tabla.getRowCount();t++){
-                 out.println("<td>"+ tabla.getValueAt(t, 1) + "</td>");                }
+                 out.println("<tr data-id" + tabla.getValueAt(t, 0) + ">");
+                 out.println("<td>"+ tabla.getValueAt(t, 0) + "</td>");
+                 out.println("<td>"+ tabla.getValueAt(t, 1) + "</td>");  
+                 out.println("</tr>");
+                }
                 %>
             </tbody>
         </table>
@@ -76,9 +86,10 @@
                var target,id,marca;
                target = $(event.target);
                id = target.parent().data('id');
-               marca = target.parent("tr").find("td").eq(0).html();
+               id = target.parent("tr").find("td").eq(0).html();
+               marca = target.parent("tr").find("td").eq(1).html();
                $("#txt_id").val(id);
-               $("#txt_marca").val(marca)
+               $("#txt_marca").val(marca);
                $("#modal_empleado").modal('show');
             });
         </script>

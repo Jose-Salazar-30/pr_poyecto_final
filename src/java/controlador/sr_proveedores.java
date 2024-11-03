@@ -7,16 +7,14 @@ package controlador;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import modelo.Proveedores;
+import modelo.Proveedor;
         
         
-/**
- *
- * @author ccu33
- */
+@WebServlet(name = "sr_proveedor", urlPatterns = {"/sr_proveedor"})
 public class sr_proveedores extends HttpServlet {
 
     /**
@@ -28,7 +26,7 @@ public class sr_proveedores extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Proveedores proveedores;
+    Proveedor proveedores;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -40,38 +38,39 @@ public class sr_proveedores extends HttpServlet {
             out.println("<title>Servlet sr_proveedores</title>");
             out.println("</head>");
             out.println("<body>");
-            proveedores = new Proveedores(request.getParameter("txt_proveedor"),request.getParameter("txt_nit"),request.getParameter("direccion"),request.getParameter("telefono"));
-            // Boton agregar 
             if ("agregar".equals(request.getParameter("btn_agregar"))){
-             if (proveedores.agregar()>0){
-             response.sendRedirect("index.jsp");
+                proveedores = new Proveedor(request.getParameter("txt_proveedor"),request.getParameter("txt_nit"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),Integer.valueOf(request.getParameter("txt_id")));
+                if (proveedores.agregar()>0){
+                    response.sendRedirect("proveedor.jsp");
              
-             }else{
-             out.println("<h1>No se Ingreso</h1>");
-             out.println("<a href='index.jsp'>Regresar...</a>");
-             }
-             }
+                } else {
+                    out.println("<h1>No se Ingreso</h1>");
+                    out.println("<a href='proveedor.jsp'>Regresar...</a>");
+                }
+            }
             
             // Boton modificar 
             if ("modificar".equals(request.getParameter("btn_modificar"))){
-             if (proveedores.modificar()>0){
-             response.sendRedirect("index.jsp");
+              proveedores = new Proveedor(request.getParameter("txt_proveedor"),request.getParameter("txt_nit"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),Integer.valueOf(request.getParameter("txt_id")));
+                if (proveedores.modificar()>0){
+                    response.sendRedirect("proveedor.jsp");
              
-             }else{
-             out.println("<h1>No se Modifico  </h1>");
-             out.println("<a href='index.jsp'>Regresar...</a>");
-             }
+                } else {
+                    out.println("<h1>No se Modifico</h1>");
+                    out.println("<a href='proveedor.jsp'>Regresar...</a>");
+                }
              }
             
             // Boton eliminar 
             if ("eliminar".equals(request.getParameter("btn_eliminar"))){
-             if (proveedores.eliminar()>0){
-             response.sendRedirect("index.jsp");
+             proveedores = new Proveedor(request.getParameter("txt_proveedor"),request.getParameter("txt_nit"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),Integer.valueOf(request.getParameter("txt_id")));
+                if (proveedores.eliminar()>0){
+                    response.sendRedirect("proveedor.jsp");
              
-             }else{
-             out.println("<h1>No se Elimino </h1>");
-             out.println("<a href='index.jsp'>Regresar...</a>");
-             }
+                } else {
+                    out.println("<h1>No se Modifico</h1>");
+                    out.println("<a href='proveedor.jsp'>Regresar...</a>");
+                }
              }
             
             

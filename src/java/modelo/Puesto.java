@@ -15,24 +15,24 @@ import javax.swing.table.DefaultTableModel;
  * @author ccu33
  */
 public class Puesto {
-    private int id_puesto;
+    private int id;
     private String puesto;
     private Conexion cn; 
 
     public Puesto(){}
-    public Puesto(int id_puesto, String puesto) {
-        this.id_puesto = id_puesto;
+    public Puesto(int id, String puesto) {
+        this.id = id;
         this.puesto = puesto;
     }
     
     
 
     public int getId_puesto() {
-        return id_puesto;
+        return id;
     }
 
-    public void setId_puesto(int id_puesto) {
-        this.id_puesto = id_puesto;
+    public void setId_puesto(int id) {
+        this.id = id;
     }
 
     public String getPuesto() {
@@ -46,7 +46,7 @@ public class Puesto {
     
     
     
-     public HashMap drop_sangre(){
+     public HashMap drop_puesto(){
       HashMap<String,String> drop = new HashMap();
       try{
           cn = new Conexion();
@@ -73,9 +73,9 @@ public class Puesto {
       ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
       String encabezado[] = {"id_puesto","puesto"};
       tabla.setColumnIdentifiers(encabezado);
-      String datos[] = new String[1];
+      String datos[] = new String[2];
       while (consulta.next()){
-          datos[0] = consulta.getString("id_puesto");
+          datos[0] = consulta.getString("id");
           datos[1] = consulta.getString("puesto");
           tabla.addRow(datos);
       
@@ -89,7 +89,7 @@ public class Puesto {
  }
     //CRUD
      
-     public int agregar(String puesto) {
+     public int agregar() {
          int retorno =0;
      
     try {
@@ -116,10 +116,11 @@ return retorno;
     try {
         PreparedStatement parametro;
         cn = new Conexion();
-        String query = "UPDATE puestos SET puesto = ? WHERE id_puestos = ?;";
+        String query = "UPDATE puestos SET puesto = ? WHERE id_puesto = ?;";
         cn.abrirConexion();
          parametro = (PreparedStatement)cn.conexionBD.prepareStatement(query);
         parametro.setString(1, getPuesto());
+        parametro.setInt(2, getId_puesto());
         retorno= parametro.executeUpdate();
         cn.cerrarConexion();
         
@@ -139,7 +140,7 @@ return retorno;
     try {
         PreparedStatement parametro;
         cn = new Conexion();
-        String query = "DELETE FROM puestos WHERE id_puestos = ?;";
+        String query = "DELETE FROM puestos WHERE id_puesto = ?";
         cn.abrirConexion();
         parametro = (PreparedStatement)cn.conexionBD.prepareStatement(query);
         

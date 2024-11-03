@@ -11,14 +11,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import modelo.Marcas;
+import modelo.Productos;
 
 /**
  *
  * @author josej
  */
-@WebServlet(name = "sr_marca", urlPatterns = {"/sr_marca"})
-public class sr_marca extends HttpServlet {
+@WebServlet(name = "sr_productos", urlPatterns = {"/sr_productos"})
+public class sr_productos extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,7 +29,7 @@ public class sr_marca extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Marcas marca;
+    Productos productos;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -38,37 +38,37 @@ public class sr_marca extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet sr_marca</title>");
+            out.println("<title>Servlet sr_productos</title>");
             out.println("</head>");
             out.println("<body>");
             
             if ("agregar".equals(request.getParameter("btn_agregar"))){
-                marca = new Marcas (request.getParameter("txt_marca"),Integer.valueOf(request.getParameter("txt_id")));
-                if (marca.agregar() > 0) {
-                    response.sendRedirect("marca.jsp");
+                productos = new Productos (request.getParameter("txt_producto"),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Integer.valueOf(request.getParameter("txt_precio_c")),Integer.valueOf(request.getParameter("txt_precio_v")),Integer.valueOf(request.getParameter("txt_existencia")),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("drop_marca")),Integer.valueOf(request.getParameter("txt_id")));
+                if (productos.agregar() > 0) {
+                    response.sendRedirect("producto.jsp");
                 } else {
                     out.println("<h1>Error al agregar</h1>");
-                    out.println("<a href ='marca.jsp'>Regresar</a>");
+                    out.println("<a href ='producto.jsp'>Regresar</a>");
                 }
             }
             
-            if ("modificar".equals(request.getParameter("btn_modificar"))) {
-                marca = new Marcas(request.getParameter("txt_marca"),Integer.valueOf(request.getParameter("txt_id")));
-                if (marca.modificar() > 0) {
-                    response.sendRedirect("marca.jsp");
+            if ("modificar".equals(request.getParameter("btn_modificar"))){
+                productos = new Productos (request.getParameter("txt_producto"),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Integer.valueOf(request.getParameter("txt_precio_c")),Integer.valueOf(request.getParameter("txt_precio_v")),Integer.valueOf(request.getParameter("txt_existencia")),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("drop_marca")),Integer.valueOf(request.getParameter("txt_id")));
+                if (productos.modificar() > 0) {
+                    response.sendRedirect("producto.jsp");
                 } else {
                     out.println("<h1>Error al modificar</h1>");
-                    out.println("<a href ='marca.jsp'>Regresar</a>");
+                    out.println("<a href ='producto.jsp'>Regresar</a>");
                 }
             }
             
-            if  ("eliminar".equals(request.getParameter("btn_eliminar"))){
-                marca = new Marcas(request.getParameter("txt_marca"),Integer.valueOf(request.getParameter("txt_id")));
-                if (marca.eliminar() > 0) {
-                    response.sendRedirect("marca.jsp");
-            } else {
+            if ("eliminar".equals(request.getParameter("btn_eliminar"))){
+                productos = new Productos (request.getParameter("txt_producto"),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Integer.valueOf(request.getParameter("txt_precio_c")),Integer.valueOf(request.getParameter("txt_precio_v")),Integer.valueOf(request.getParameter("txt_existencia")),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("drop_marca")),Integer.valueOf(request.getParameter("txt_id")));
+                if (productos.eliminar() > 0) {
+                    response.sendRedirect("producto.jsp");
+                } else {
                     out.println("<h1>Error al eliminar</h1>");
-                    out.println("<a href ='marca.jsp'>Regresar</a>");
+                    out.println("<a href ='producto.jsp'>Regresar</a>");
                 }
             }
             out.println("</body>");
