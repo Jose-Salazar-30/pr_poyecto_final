@@ -32,6 +32,8 @@ public class Productos {
         this.id = id;
     }
 
+    // Getters y Setters
+
     public String getProducto() {
         return producto;
     }
@@ -92,10 +94,10 @@ public class Productos {
         return id_marca;
     }
 
-    public void setId_puesto(int id_marca) {
+    public void setId_marca(int id_marca) {
         this.id_marca = id_marca;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -103,20 +105,18 @@ public class Productos {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
-        public DefaultTableModel leer(){
+
+    public DefaultTableModel leer() {
         DefaultTableModel tabla = new DefaultTableModel();
         try {
             cn = new Conexion();
             cn.abrirConexion();
             String query = "SELECT p.id_producto as id,p.producto,p.descripcion,p.imagen,p.precio_costo,p.precio_venta,p.existencia,p.fecha_ingreso,p.id_marca FROM productos as p inner join marcas as m on m.id_marca = p.id_marca;";
             ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
-            String encabezado[] = {"id","producto","descripcion","imagen","precio_costo","precio_venta","existencia","fecha_ingreso","id_marca"};
+            String encabezado[] = {"id", "producto", "descripcion", "imagen", "precio_costo", "precio_venta", "existencia", "fecha_ingreso", "id_marca"};
             tabla.setColumnIdentifiers(encabezado);
             String datos[] = new String[9];
             while (consulta.next()) {
-                //System.out.println("Id: " + consulta.getString("id"));
                 datos[0] = consulta.getString("id");
                 datos[1] = consulta.getString("producto");
                 datos[2] = consulta.getString("descripcion");
@@ -129,21 +129,20 @@ public class Productos {
                 tabla.addRow(datos);
             }
             cn.cerrarConexion();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         return tabla;
     }
-        
-        
-    public int agregar(){
+
+    public int agregar() {
         int retorno = 0;
         try {
             cn = new Conexion();
             PreparedStatement parametro;
-            String query = "INSERT INTO productos (producto,descripcion,imagen,precio_costo,precio_venta,existencia,fecha_ingreso,id_marca) VALUES (?,?,?,?,?,?,?,?);";
+            String query = "INSERT INTO productos (producto, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso, id_marca) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
             cn.abrirConexion();
-            parametro = (PreparedStatement)cn.conexionBD.prepareStatement(query);
+            parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
             parametro.setString(1, getProducto());
             parametro.setString(2, getDescripcion());
             parametro.setString(3, getImagen());
@@ -152,25 +151,24 @@ public class Productos {
             parametro.setInt(6, getExistencia());
             parametro.setString(7, getFecha_ingreso());
             parametro.setInt(8, getId_marca());
-            
+
             retorno = parametro.executeUpdate();
-            
             cn.cerrarConexion();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             retorno = 0;
         }
         return retorno;
     }
-    
-    public int modificar(){
+
+    public int modificar() {
         int retorno = 0;
         try {
             cn = new Conexion();
             cn.abrirConexion();
             PreparedStatement parametro;
-            String query = "UPDATE productos SET producto = ?,descripcion = ?,imagen = ?,precio_costo = ?,precio_venta = ?,existencia = ?,fecha_ingreso = ?,id_marca = ? WHERE id_producto = ?;";
-            parametro = (PreparedStatement)cn.conexionBD.prepareStatement(query);
+            String query = "UPDATE productos SET producto = ?, descripcion = ?, imagen = ?, precio_costo = ?, precio_venta = ?, existencia = ?, fecha_ingreso = ?, id_marca = ? WHERE id_producto = ?;";
+            parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
             parametro.setString(1, getProducto());
             parametro.setString(2, getDescripcion());
             parametro.setString(3, getImagen());
@@ -180,36 +178,51 @@ public class Productos {
             parametro.setString(7, getFecha_ingreso());
             parametro.setInt(8, getId_marca());
             parametro.setInt(9, getId());
-            
+
             retorno = parametro.executeUpdate();
-            
             cn.cerrarConexion();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             retorno = 0;
         }
         return retorno;
     }
-    
-        public int eliminar(){
-            int retorno = 0;
-            try{
-                cn = new Conexion();
-                PreparedStatement parametro;
-                String query = "delete from productos where id_producto=?";
-                cn.abrirConexion();
-                parametro = (PreparedStatement)cn.conexionBD.prepareStatement(query);
-                parametro.setInt(1, getId());
-                
-                retorno = parametro.executeUpdate();
-                
-                cn.cerrarConexion();
-            }catch(SQLException ex){
+
+    public int eliminar() {
+        int retorno = 0;
+        try {
+            cn = new Conexion();
+            PreparedStatement parametro;
+            String query = "DELETE FROM productos WHERE id_producto = ?;";
+            cn.abrirConexion();
+            parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
+            parametro.setInt(1, getId());
+
+            retorno = parametro.executeUpdate();
+            cn.cerrarConexion();
+        } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             retorno = 0;
         }
-            return retorno;
+        return retorno;
+    }
+
+    // Nuevo método para actualizar la existencia del producto
+    public boolean actualizarExistencia(int cantidadVendida) {
+        try {
+            cn = new Conexion();
+            cn.abrirConexion();
+            String query = "UPDATE productos SET existencia = existencia - ? WHERE id_producto = ?;";
+            PreparedStatement parametro = cn.conexionBD.prepareStatement(query);
+            parametro.setInt(1, cantidadVendida);
+            parametro.setInt(2, getId()); // Asumimos que has establecido el ID del producto antes de llamar a este método
+
+            int rowsAffected = parametro.executeUpdate();
+            cn.cerrarConexion();
+            return rowsAffected > 0;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
         }
-
-
+    }
 }

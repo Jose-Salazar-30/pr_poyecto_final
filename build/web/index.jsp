@@ -44,6 +44,9 @@
          <li class="nav-item">
           <a class="nav-link" href="proveedor.jsp">Proveedores</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="venta.jsp">Ventas</a>
+        </li> 
       </ul>
     </div>
   </div>

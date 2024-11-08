@@ -7,6 +7,7 @@ import java.awt.HeadlessException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -102,6 +103,23 @@ public class Cliente {
         this.id = id;
     }
     
+     public HashMap drop_cliente(){
+      HashMap<String,String> drop = new HashMap();
+      try{
+          cn = new Conexion();
+          String query= "select id_cliente as id,nombres,apellidos,NIT,genero,telefono,correo_electronico,fecha_ingreso from clientes;";
+          cn.abrirConexion();
+          ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
+          while (consulta.next()){
+             drop.put(consulta.getString("id"), consulta.getNString("nombres"));
+          }
+          cn.cerrarConexion();
+          
+      } catch(SQLException ex){
+           System.out.println(ex.getMessage());
+      }
+      return drop;
+    }
     
     public DefaultTableModel leer(){
         DefaultTableModel tabla = new DefaultTableModel();

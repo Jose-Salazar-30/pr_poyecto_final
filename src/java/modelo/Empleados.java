@@ -3,6 +3,7 @@ package modelo;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
 
 public class Empleados {
@@ -122,6 +123,24 @@ public class Empleados {
 
     public void setId(int id) {
         this.id = id;
+    }
+    
+         public HashMap drop_empleado(){
+      HashMap<String,String> drop = new HashMap();
+      try{
+          cn = new Conexion();
+          String query= "SELECT id_empleado as id,nombres,apellidos,direccion,telefono,DPI,genero,fecha_nacimiento,fecha_inicio_labores,fecha_ingreso,id_puesto FROM empleados;";
+          cn.abrirConexion();
+          ResultSet consulta = cn.conexionBD.createStatement().executeQuery(query);
+          while (consulta.next()){
+             drop.put(consulta.getString("id"), consulta.getNString("nombres"));
+          }
+          cn.cerrarConexion();
+          
+      } catch(SQLException ex){
+           System.out.println(ex.getMessage());
+      }
+      return drop;
     }
     
     public DefaultTableModel leer(){

@@ -2,6 +2,13 @@
 <%@page import="javax.swing.table.DefaultTableModel" %>
 <%@page import="java.util.HashMap" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    String username = (String) session.getAttribute("username");
+    if (username == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
     <head>
