@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/C:/Users/josej/OneDrive/Documentos/NetBeansProjects/web_almacen_final/src/java/modelo/Cliente.java</file>
             <file>file:/C:/Users/josej/OneDrive/Documentos/NetBeansProjects/web_almacen_final/src/java/controlador/sr_marca.java</file>
@@ -19,5 +20,8 @@
             <file>file:/C:/Users/josej/OneDrive/Documentos/NetBeansProjects/web_almacen_final/src/java/modelo/Puesto.java</file>
             <file>file:/C:/Users/josej/OneDrive/Documentos/NetBeansProjects/web_almacen_final/src/java/modelo/Proveedor.java</file>
         </group>
+=======
+        <group/>
+>>>>>>> 02c1fe5fe9f50ca4f1fa6bf677c73ba30cd14539
     </open-files>
 </project-private>
