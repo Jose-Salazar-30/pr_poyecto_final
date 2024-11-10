@@ -11,11 +11,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import modelo.Proveedor;
-        
-        
-@WebServlet(name = "sr_proveedor", urlPatterns = {"/sr_proveedor"})
-public class sr_proveedores extends HttpServlet {
+import modelo.Compra_Detalle;
+import modelo.Compras;
+
+/**
+ *
+ * @author josej
+ */
+@WebServlet(name = "sr_compra", urlPatterns = {"/sr_compra"})
+public class sr_compra extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -26,7 +30,6 @@ public class sr_proveedores extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    Proveedor proveedores;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -35,47 +38,10 @@ public class sr_proveedores extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet sr_proveedores</title>");
+            out.println("<title>Servlet sr_compra</title>");
             out.println("</head>");
             out.println("<body>");
-            if ("agregar".equals(request.getParameter("btn_agregar"))){
-                proveedores = new Proveedor(request.getParameter("txt_proveedor"),request.getParameter("txt_nit"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),Integer.valueOf(request.getParameter("txt_id")));
-                if (proveedores.agregar()>0){
-                    response.sendRedirect("proveedor.jsp");
-             
-                } else {
-                    out.println("<h1>No se Ingreso</h1>");
-                    out.println("<a href='proveedor.jsp'>Regresar...</a>");
-                }
-            }
-            
-            // Boton modificar 
-            if ("modificar".equals(request.getParameter("btn_modificar"))){
-              proveedores = new Proveedor(request.getParameter("txt_proveedor"),request.getParameter("txt_nit"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),Integer.valueOf(request.getParameter("txt_id")));
-                if (proveedores.modificar()>0){
-                    response.sendRedirect("proveedor.jsp");
-             
-                } else {
-                    out.println("<h1>No se Modifico</h1>");
-                    out.println("<a href='proveedor.jsp'>Regresar...</a>");
-                }
-             }
-            
-            // Boton eliminar 
-            if ("eliminar".equals(request.getParameter("btn_eliminar"))){
-             proveedores = new Proveedor(request.getParameter("txt_proveedor"),request.getParameter("txt_nit"),request.getParameter("txt_direccion"),request.getParameter("txt_telefono"),Integer.valueOf(request.getParameter("txt_id")));
-                if (proveedores.eliminar()>0){
-                    response.sendRedirect("proveedor.jsp");
-             
-                } else {
-                    out.println("<h1>No se Elimino</h1>");
-                    out.println("<a href='proveedor.jsp'>Regresar...</a>");
-                }
-             }
-            
-            
-          
-            out.println("<h1>Servlet sr_proveedores at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet sr_compra at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -107,7 +73,42 @@ public class sr_proveedores extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        // Captura los datos de la compra desde el formulario
+    int noOrdenCompra = Integer.parseInt(request.getParameter("no_orden_compra"));
+    String fechaOrden = request.getParameter("fecha_orden");
+    String fechaIngreso = request.getParameter("fecha_ingreso");
+    int idProveedor = Integer.parseInt(request.getParameter("id_proveedor"));
+    
+    Compras compra = new Compras();
+    compra.setNo_orden_compra(noOrdenCompra);
+    compra.setFecha_orden(fechaOrden);
+    compra.setFecha_ingreso(fechaIngreso);
+    compra.setId_proveedor(idProveedor);
+
+    if (compra.agregar()) {
+        
+        int idCompraGenerada = compra.getId();
+        
+        int cantidad = Integer.parseInt(request.getParameter("cantidad"));
+        int precioCostoUnitario = Integer.parseInt(request.getParameter("precio_costo_unitario"));
+        int idProducto = Integer.parseInt(request.getParameter("id_producto"));
+        
+        Compra_Detalle detalle = new Compra_Detalle();
+        detalle.setCantidad(cantidad);
+        detalle.setPrecio_costo_unitario(precioCostoUnitario);
+        detalle.setId_producto(idProducto);
+        detalle.setId_compra(idCompraGenerada);
+
+        if (detalle.agregar()) {
+            response.getWriter().write("Compra y detalle registrados con éxito");
+            response.sendRedirect("sr_compra");
+        } else {
+            response.getWriter().write("Error al registrar el detalle de la compra.");
+        }
+    } else {
+        response.getWriter().write("Error al registrar la compra.");
+    }
     }
 
     /**

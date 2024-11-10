@@ -165,8 +165,8 @@ public class Productos {
         int retorno = 0;
         try {
             cn = new Conexion();
-            cn.abrirConexion();
             PreparedStatement parametro;
+            cn.abrirConexion();
             String query = "UPDATE productos SET producto = ?, descripcion = ?, imagen = ?, precio_costo = ?, precio_venta = ?, existencia = ?, fecha_ingreso = ?, id_marca = ? WHERE id_producto = ?;";
             parametro = (PreparedStatement) cn.conexionBD.prepareStatement(query);
             parametro.setString(1, getProducto());
@@ -207,7 +207,6 @@ public class Productos {
         return retorno;
     }
 
-    // Nuevo método para actualizar la existencia del producto
     public boolean actualizarExistencia(int cantidadVendida) {
         try {
             cn = new Conexion();
@@ -215,7 +214,7 @@ public class Productos {
             String query = "UPDATE productos SET existencia = existencia - ? WHERE id_producto = ?;";
             PreparedStatement parametro = cn.conexionBD.prepareStatement(query);
             parametro.setInt(1, cantidadVendida);
-            parametro.setInt(2, getId()); // Asumimos que has establecido el ID del producto antes de llamar a este método
+            parametro.setInt(2, getId()); 
 
             int rowsAffected = parametro.executeUpdate();
             cn.cerrarConexion();

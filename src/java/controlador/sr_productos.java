@@ -43,7 +43,7 @@ public class sr_productos extends HttpServlet {
             out.println("<body>");
             
             if ("agregar".equals(request.getParameter("btn_agregar"))){
-                productos = new Productos (request.getParameter("txt_producto"),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Integer.valueOf(request.getParameter("txt_precio_c")),Integer.valueOf(request.getParameter("txt_precio_v")),Integer.valueOf(request.getParameter("txt_existencia")),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("drop_marca")),Integer.valueOf(request.getParameter("txt_id")));
+                productos = new Productos (request.getParameter("txt_producto"),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Double.valueOf(request.getParameter("txt_precio_c")),Double.valueOf(request.getParameter("txt_precio_v")),Integer.valueOf(request.getParameter("txt_existencia")),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("drop_marca")),Integer.valueOf(request.getParameter("txt_id")));
                 if (productos.agregar() > 0) {
                     response.sendRedirect("producto.jsp");
                 } else {
@@ -53,9 +53,9 @@ public class sr_productos extends HttpServlet {
             }
             
             if ("modificar".equals(request.getParameter("btn_modificar"))){
-                productos = new Productos (request.getParameter("txt_producto"),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Integer.valueOf(request.getParameter("txt_precio_c")),Integer.valueOf(request.getParameter("txt_precio_v")),Integer.valueOf(request.getParameter("txt_existencia")),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("drop_marca")),Integer.valueOf(request.getParameter("txt_id")));
+                productos = new Productos (request.getParameter("txt_producto"),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Double.valueOf(request.getParameter("txt_precio_c")),Double.valueOf(request.getParameter("txt_precio_v")),Integer.valueOf(request.getParameter("txt_existencia")),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("drop_marca")),Integer.valueOf(request.getParameter("txt_id")));
                 if (productos.modificar() > 0) {
-                    response.sendRedirect("producto.jsp");
+                     response.sendRedirect("producto.jsp");
                 } else {
                     out.println("<h1>Error al modificar</h1>");
                     out.println("<a href ='producto.jsp'>Regresar</a>");
@@ -63,7 +63,7 @@ public class sr_productos extends HttpServlet {
             }
             
             if ("eliminar".equals(request.getParameter("btn_eliminar"))){
-                productos = new Productos (request.getParameter("txt_producto"),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Integer.valueOf(request.getParameter("txt_precio_c")),Integer.valueOf(request.getParameter("txt_precio_v")),Integer.valueOf(request.getParameter("txt_existencia")),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("drop_marca")),Integer.valueOf(request.getParameter("txt_id")));
+                productos = new Productos (request.getParameter("txt_producto"),request.getParameter("txt_descripcion"),request.getParameter("txt_imagen"),Double.valueOf(request.getParameter("txt_precio_c")),Double.valueOf(request.getParameter("txt_precio_v")),Integer.valueOf(request.getParameter("txt_existencia")),request.getParameter("txt_fecha_i"),Integer.valueOf(request.getParameter("drop_marca")),Integer.valueOf(request.getParameter("txt_id")));
                 if (productos.eliminar() > 0) {
                     response.sendRedirect("producto.jsp");
                 } else {

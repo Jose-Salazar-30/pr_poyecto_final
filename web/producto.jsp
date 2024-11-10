@@ -84,25 +84,27 @@
                             
         <br>
         <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Producto</th>
-        <th>Descripcion</th>
-        <th>Imagen</th>
-        <th>Precio_Costo</th>
-        <th>Precio_Venta</th>
-        <th>Existencia</th>
-        <th>Fecha_Ingreso</th>
-        <th>Marca</th>
-      </tr>
-    </thead>
+   <thead>
+  <tr>
+    <th>ID</th>
+    <th>Producto</th>
+    <th>Descripcion</th>
+    <th>Imagen</th>
+    <th>Precio_Costo</th>
+    <th>Precio_Venta</th>
+    <th>Existencia</th>
+    <th>Fecha_Ingreso</th>
+    <th>Marca</th>
+  </tr>
+</thead>
     <tbody id="tbl_productos">
-        <%
-            Productos productos = new Productos();
-            DefaultTableModel tabla = new DefaultTableModel();
-            tabla = productos.leer();
-            for (int t=0;t<tabla.getRowCount();t++){
-            out.println("<tr data-id" + tabla.getValueAt(t,0) + "data-id_m=" + tabla.getValueAt(t,8) + ">");
+       <%
+        Productos productos = new Productos();
+        DefaultTableModel tabla = new DefaultTableModel();
+        tabla = productos.leer();
+        for (int t=0; t < tabla.getRowCount(); t++) {
+            out.println("<tr data-id='" + tabla.getValueAt(t, 0) + "' data-id_m='" + tabla.getValueAt(t, 8) + "'>");
+            out.println("<td>" + tabla.getValueAt(t, 0) + "</td>");  // ID column
             out.println("<td>" + tabla.getValueAt(t, 1) + "</td>");
             out.println("<td>" + tabla.getValueAt(t, 2) + "</td>");
             out.println("<td>" + tabla.getValueAt(t, 3) + "</td>");
@@ -111,9 +113,9 @@
             out.println("<td>" + tabla.getValueAt(t, 6) + "</td>");
             out.println("<td>" + tabla.getValueAt(t, 7) + "</td>");
             out.println("<td>" + tabla.getValueAt(t, 8) + "</td>");
-
-            }
-        %>
+            out.println("</tr>");
+        }
+    %>
         </tbody>
         </table>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -131,29 +133,34 @@
                 $("#drop_marca").val(1);
             }
             
-            $('#tbl_productos').on('click','tr td',function(evt) {
-                var target,id,id_m,producto,descripcion,imagen,precio_costo,precio_venta,existencia,fecha_ingreso;
-                target = $(event.target);
-                id = target.parent().data('id');
-                id_m = target.parent().data('id_m');
-                producto = target.parent("tr").find("td").eq(0).html();
-                descripcion = target.parent("tr").find("td").eq(1).html();
-                imagen = target.parent("tr").find("td").eq(2).html();
-                precio_costo = target.parent("tr").find("td").eq(3).html();
-                precio_venta = target.parent("tr").find("td").eq(4).html();
-                existencia = target.parent("tr").find("td").eq(5).html();
-                fecha_ingreso = target.parent("tr").find("td").eq(6).html();
-                $("#txt_id").val(id);
-                $("#txt_producto").val(producto);
-                $("#txt_descripcion").val(descripcion);
-                $("#txt_imagen").val(imagen);
-                $("#txt_precio_c").val(precio_costo);
-                $("#txt_precio_v").val(precio_venta);
-                $("#txt_existencia").val(existencia);
-                $("#txt_fecha_i").val(fecha_ingreso);
-                $("#drop_marca").val(id_m);
-                $("#modal_producto").modal('show');
-    });
+            $('#tbl_productos').on('click', 'tr td', function(evt) {
+    var target, id, id_m, producto, descripcion, imagen, precio_costo, precio_venta, existencia, fecha_ingreso;
+    target = $(event.target);
+    id = target.parent().data('id');
+    id_m = target.parent().data('id_m');
+    producto = target.parent("tr").find("td").eq(1).html();
+    descripcion = target.parent("tr").find("td").eq(2).html();
+    imagen = target.parent("tr").find("td").eq(3).html();
+    precio_costo = target.parent("tr").find("td").eq(4).html();
+    precio_venta = target.parent("tr").find("td").eq(5).html();
+    existencia = target.parent("tr").find("td").eq(6).html();
+    fecha_ingreso = target.parent("tr").find("td").eq(7).html();
+    
+    // Asignar valores a los campos del modal
+    $("#txt_id").val(id);
+    $("#txt_producto").val(producto);
+    $("#txt_descripcion").val(descripcion);
+    $("#txt_imagen").val(imagen);
+    $("#txt_precio_c").val(precio_costo);
+    $("#txt_precio_v").val(precio_venta);
+    $("#txt_existencia").val(existencia);
+    $("#txt_fecha_i").val(fecha_ingreso);
+    $("#drop_marca").val(id_m);
+    
+    // Mostrar el modal
+    $("#modal_producto").modal('show');
+});
+
         </script>
     </body>
 </html>

@@ -131,33 +131,36 @@
                 $("#drop_puesto").val(1);
             }
             
-            $('#tbl_empleados').on('click','tr td',function(evt){
-                var target,id,id_p,nombres,apellidos,direccion,telefono,DPI,genero,fecha_nacimiento,fecha_inicio_labores,fecha_ingreso;
-                target = $(event.target);
-                id = target.parent().data('id');
-                id_p = target.parent().data('id_p');
-                nombres = target.parent("tr").find("td").eq(0).html();
-                apellidos = target.parent("tr").find("td").eq(1).html();
-                direccion = target.parent("tr").find("td").eq(2).html();
-                telefono = target.parent("tr").find("td").eq(3).html();
-                DPI = target.parent("tr").find("td").eq(4).html();
-                genero = target.parent("tr").find("td").eq(5).html();
-                fecha_nacimiento = target.parent("tr").find("td").eq(6).html();
-                fecha_inicio_labores = target.parent("tr").find("td").eq(7).html();
-                fecha_ingreso = target.parent("tr").find("td").eq(8).html();
-                $("#txt_id").val(id);
-                $("#txt_nombres").val(nombres);
-                $("#txt_apellidos").val(apellidos);
-                $("#txt_direccion").val(direccion);
-                $("#txt_telefono").val(telefono);
-                $("#txt_DPI").val(DPI);
-                $("#txt_genero").val(genero);  
-                $("#txt_fecha_n").val(fecha_nacimiento);
-                $("#txt_fecha_il").val(fecha_inicio_labores);
-                $("#txt_fecha_i").val(fecha_ingreso);
-                $("#drop_puesto").val(id_p);
-                $("#modal_empleado").modal('show');
-    });
+$('#tbl_empleados').on('click', 'tr', function () {
+    var id = $(this).data('id');
+    var id_p = $(this).data('id_p');
+    var nombres = $(this).find("td").eq(0).html();
+    var apellidos = $(this).find("td").eq(1).html();
+    var direccion = $(this).find("td").eq(2).html();
+    var telefono = $(this).find("td").eq(3).html();
+    var DPI = $(this).find("td").eq(4).html();
+    var genero = $(this).find("td").eq(5).html();
+    var fecha_nacimiento = $(this).find("td").eq(6).html();
+    var fecha_inicio_labores = $(this).find("td").eq(7).html();
+    var fecha_ingreso = $(this).find("td").eq(8).html();
+
+    // Asigna los valores a los campos del formulario
+    $("#txt_id").val(id);
+    $("#txt_nombres").val(nombres);
+    $("#txt_apellidos").val(apellidos);
+    $("#txt_direccion").val(direccion);
+    $("#txt_telefono").val(telefono);
+    $("#txt_DPI").val(DPI);
+    $("#txt_genero").val(genero);  
+    $("#txt_fecha_n").val(fecha_nacimiento);
+    $("#txt_fecha_il").val(fecha_inicio_labores);
+    $("#txt_fecha_i").val(fecha_ingreso);
+    $("#drop_puesto").val(id_p);
+
+    // Muestra el modal de edición
+    $("#modal_empleado").modal('show');
+});
+
         </script>
             
     </body>
