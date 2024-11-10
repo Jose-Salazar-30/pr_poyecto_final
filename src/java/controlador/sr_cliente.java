@@ -15,7 +15,7 @@ import modelo.Cliente;
 
 /**
  *
- * @author josej
+ * @author Barillas
  */
 @WebServlet(name = "sr_cliente", urlPatterns = {"/sr_cliente"})
 public class sr_cliente extends HttpServlet {
